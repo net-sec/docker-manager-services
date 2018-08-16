@@ -1,0 +1,60 @@
+version: '2.2'
+services:
+
+  jenkins:
+    image: registry.net-sec.ch/net-sec/jenkins:latest
+    volumes:
+      - /home/admin/docker/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    expose:
+      - '8080'
+
+  redmine:
+    maxContainers: 1
+    image: redmine:latest
+    volumes:
+      - /home/admin/docker/redmine/files:/usr/src/redmine/files
+      - /home/admin/docker/redmine/sqlite:/usr/src/redmine/sqlite
+      - /home/admin/docker/redmine/themes:/usr/src/redmine/public/themes
+    expose:
+      - '3000'
+
+  registry:
+    image: registry:latest
+    volumes:
+      - /home/admin/docker/registry/data:/var/lib/registry
+    expose:
+      - '5000'
+
+  kolab:
+    image: registry.net-sec.ch/net-sec/kolab:latest-working
+    hostname: mail
+    domainname: net-sec.ch
+    volumes:
+      - /lib/modules:/lib/modules:ro
+      - /home/admin/docker/kolab:/data:rw
+      - /etc/letsencrypt/live/mail.net-sec.ch:/etc/letsencrypt/live/mail.net-sec.ch:ro
+      - /etc/letsencrypt/archive/mail.net-sec.ch:/etc/letsencrypt/archive/mail.net-sec.ch:ro
+    environment:
+      - TZ=Europe/Zurich
+      - CERT_PATH=/etc/letsencrypt/live
+    expose:
+      - '80'
+      - '443'
+      - '25'
+      - '587'
+      - '110'
+      - '995'
+      - '143'
+      - '993'
+      - '4190'
+      - '389'
+    ports:
+      - '993:993'
+      - '587:587'
+      - '143:143'
+      - '25:25'
+    cap_add:
+      - SYS_ADMIN
+      - NET_ADMIN
+    tty: true

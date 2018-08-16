@@ -1,0 +1,11 @@
+version: '2.2'
+services:
+  rb-walser:
+    image: registry.net-sec.ch/net-sec/hugo-rechtsberatung-walser:latest
+    expose:
+      - '80'
+
+  gitcd-io:
+    image: registry.net-sec.ch/net-sec/gitcd-io-website:latest
+    expose:
+      - '80'
