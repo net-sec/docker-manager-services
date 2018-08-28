@@ -2,7 +2,6 @@ version: '2.2'
 services:
 
   heinz:
-    maxContainers: 1
     image: registry.net-sec.ch/net-sec/elasticsearch-kibana:kibana4
     volumes:
       - /home/admin/docker/elasticsearch-heinz/elasticsearch:/home/elasticsearch/elasticsearch/data
